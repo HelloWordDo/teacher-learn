@@ -1,5 +1,6 @@
 package com.teacher.teacherlearn.curl_14_5;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -12,8 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * 十四五
@@ -79,7 +79,7 @@ public class Run14_5_1 {
         return "-1";
     }
 
-    public void refresh(String segId, String itemId, String courseId, String uToken) throws IOException {
+    public List<CourseResp.Data> refresh(String segId, String itemId, String courseId, String uToken) throws IOException {
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -103,7 +103,14 @@ public class Run14_5_1 {
                 .build();
         Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
-        log.info("刷新冲突校验返回：{}", responseBody);
+        log.info("获取课程中的视频返回：{}", responseBody);
+        CourseResp res = JSONObject.parseObject(responseBody, CourseResp.class);
+
+        if (response.isSuccessful()) {
+            List<CourseResp.Data> data = res.getData();
+            return data;
+        }
+        return Collections.EMPTY_LIST;
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -125,16 +132,15 @@ public class Run14_5_1 {
         for (LearnStruct.Course c : courses) {
             String courseId = c.getCourseId();
             log.info("=========新课程 刷新冲突校验开始=========");
-            r.refresh(segId, itemId, courseId, uToken);
+            List<CourseResp.Data> videos = r.refresh(segId, itemId, courseId, uToken);
             log.info("=========新课程 刷新冲突校验结束=========");
-            List<LearnStruct.Video> videos = c.getVideos();
-            for (LearnStruct.Video v : videos) {
+            for (CourseResp.Data v : videos) {
                 log.info("=========开始刷视频=========");
                 String videoId = v.getVideoId();
                 String topName = learnStruct.getTopName();
                 String itemName = c.getItemName();
                 String courseName = c.getCourseName();
-                String name4 = v.getName4();
+                String videoName = v.getName();
                 int playProgress = 60;
                 String res;
                 while (true) {
@@ -147,7 +153,7 @@ public class Run14_5_1 {
                         continue;
                     }
 
-                    log.info("开始刷课!!!!信息：进度：{}，大类：{}，小类：{}，课程：{}，视频：{}", playProgress, topName, itemName, courseName, name4);
+                    log.info("开始刷课!!!!信息：进度：{}，大类：{}，小类：{}，课程：{}，视频：{}", playProgress, topName, itemName, courseName, videoName);
                     res = r.run1(segId, itemId, courseId, videoId, String.valueOf(playProgress), uToken);
                     log.info("开始刷课结束!!!返回：{}", res);
                     if (res.equals("-1")) {

@@ -57,9 +57,6 @@ public class LearnStruct implements Serializable {
          * 具体每个视频
          */
         private String videoId;
-        private String name1;
-        private String name2;
-        private String name3;
         private String name4;
     }
 
