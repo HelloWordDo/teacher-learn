@@ -69,15 +69,4 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://jfrog-prod.maezia.com:443/artifactory/ma-maven-develop-virtual</url>
-        </repository>
-        <repository>
-            <id>snapshots</id>
-            <url>https://jfrog-prod.maezia.com:443/artifactory/ma-maven-develop-virtual</url>
-        </repository>
-    </repositories>
-
 </project>

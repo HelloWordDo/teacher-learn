@@ -1,14 +1,15 @@
-package com.teacher.teacherlearn.curl_14_5;
+package com.teacher.teacherlearn.curl_14_5.pojo;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseResp {
+public class VideoResp implements Serializable {
 
     private String success;
     private Integer resultCode;
@@ -17,7 +18,7 @@ public class CourseResp {
     @Getter
     @Setter
     @ToString
-    public static class Data {
+    public static class Data implements Serializable {
         private String videoId;
         private String name;
     }
