@@ -1,4 +1,4 @@
-package com.teacher.teacherlearn.curl_14_5;
+package com.teacher.teacherlearn.curl_14_5.pojo;
 
 import lombok.Getter;
 import lombok.Setter;

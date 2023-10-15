@@ -1,27 +1,31 @@
 package com.teacher.teacherlearn.curl_14_5;
 
+import com.teacher.teacherlearn.curl_14_5.common.SunData;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import okhttp3.RequestBody;
 
 import java.io.IOException;
 
 @Slf4j
 public class Login {
 
-    private String userName = "18231738529";
-    private String passWord = "Wolove11997";
-    private String service = "https://www.ttcdw.cn/p/uc/projectCenter/622297127378276352/index/638519743941120000?orgId=622293883621437440";
-    private String platformId = "13145854983311";
+    public static void main(String[] args) throws IOException {
 
-    public String login() throws IOException {
+        Login login = new Login();
+        log.info("token：{}", login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service));
+    }
+
+    public String login(String userName, String passWord, String platformId, String service) throws IOException {
 
         log.info("重新开始登录");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8");
-        RequestBody body = RequestBody.create(mediaType, "username=" + userName + "&password=" + passWord + "&platformId=" + platformId + "&service=" + service);
+        RequestBody body = RequestBody.create(mediaType,
+                "username=" + userName + "&password=" + passWord + "&platformId=" + platformId + "&service=" + service);
         Request request = new Request.Builder()
-                .url("https://www.ttcdw.cn/p/uc/userLogin?type=0&pageType=login&service=https%3A%2F%2Fwww.ttcdw.cn%2Fp%2Fuc%2FprojectCenter%2F622297127378276352%2Findex%2F638519743941120000%3ForgId%3D622293883621437440")
+                .url("https://www.ttcdw.cn/p/uc/userLogin?type=0&pageType=login&service=" + service)
                 .method("POST", body)
                 .addHeader("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
                 .build();
@@ -39,11 +43,5 @@ public class Login {
             }
         }
         return token;
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        Login login = new Login();
-        log.info("token：{}", login.login());
     }
 }

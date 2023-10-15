@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.teacher.teacherlearn.curl_14_5.common.SunData;
 import com.teacher.teacherlearn.curl_14_5.pojo.*;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.FormBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +24,9 @@ public class GetData {
 //        String uToken = login.login();
         GetData g = new GetData();
 
-        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken);
+        UserInfoResp.Project.ProjectClass projectClass = g.getUserinfo(uToken, SunData.classId);
+        log.info("获取User返回：{}", projectClass);
+        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, projectClass.getProjectId(), SunData.classId);
         for (LearnMessage learn : learnMessages) {
             List<ModuleResp.Module.Detail> moudules = g.getModelIds(uToken, learn.getItemId());
             for (ModuleResp.Module.Detail m : moudules) {
@@ -37,23 +39,41 @@ public class GetData {
         }
     }
 
-    //Step1
-    public List<LearnMessage> getSegIdAndItemId(String uToken) throws IOException {
+    public UserInfoResp.Project.ProjectClass getUserinfo(String uToken, String classId) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://www.ttcdw.cn/p/uc/services/member/project/projectIndex/" + SunData.projectId +
+                .url("https://www.ttcdw.cn/p/uc/services/member/project/header?classId=" + classId)
+                .addHeader("cookie", "u-token=" + uToken)
+                .build();
+        Response response = client.newCall(request).execute();
+        String responseBody = response.body().string();
+        log.info("获取userInfo返回：{}", responseBody);
+        if (response.isSuccessful()) {
+            UserInfoResp res = JSONObject.parseObject(responseBody, UserInfoResp.class);
+            UserInfoResp.Project.ProjectClass projectClass = res.getData().getProjectClass();
+            return projectClass;
+        }
+        return null;
+    }
+
+    //Step1
+    public List<LearnMessage> getSegIdAndItemId(String uToken, String projectId, String classId) throws IOException {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url("https://www.ttcdw.cn/p/uc/services/member/project/projectIndex/" + projectId +
                         "/progressData?classId=" +
-                        SunData.classId)
+                        classId)
                 .addHeader("cookie", "u-token=" + uToken)
                 .build();
         Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
         log.info("获取segId返回：{}", responseBody);
-        SegmentResp res = JSONObject.parseObject(responseBody, SegmentResp.class);
 
         List<LearnMessage> learnMessages = new ArrayList<>();
         if (response.isSuccessful()) {
+            SegmentResp res = JSONObject.parseObject(responseBody, SegmentResp.class);
             SegmentResp.Segment seg = res.getData();
             List<SegmentResp.Segment.Seg> segs = seg.getSegments();
             for (SegmentResp.Segment.Seg s : segs) {
@@ -67,12 +87,12 @@ public class GetData {
         return learnMessages;
     }
 
-    public String getItemsData(String uToken, String segId) throws IOException {
+    public String getItemsData(String uToken, String segId, String projectId) throws IOException {
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://www.ttcdw.cn/p/uc/services/member/project/myClassroom/segmentData/" + SunData.projectId +
+                .url("https://www.ttcdw.cn/p/uc/services/member/project/myClassroom/segmentData/" + projectId +
                         "/segment/" + segId)
                 .addHeader("cookie", "u-token=" + uToken)
                 .build();
@@ -80,9 +100,8 @@ public class GetData {
         String responseBody = response.body().string();
         log.info("获取ItemId返回：{}", responseBody);
 
-        ItemDataResp res = JSONObject.parseObject(responseBody, ItemDataResp.class);
         if (response.isSuccessful()) {
-
+            ItemDataResp res = JSONObject.parseObject(responseBody, ItemDataResp.class);
             List<ItemDataResp.ItemData.Item.Detail> item = res.getData().getData().getItemList();
             String itemId = item.get(0).getId();
             return itemId;
@@ -103,8 +122,9 @@ public class GetData {
         Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
         log.info("获取ModelIds返回：{}", responseBody);
-        ModuleResp res = JSONObject.parseObject(responseBody, ModuleResp.class);
+
         if (response.isSuccessful()) {
+            ModuleResp res = JSONObject.parseObject(responseBody, ModuleResp.class);
             ModuleResp.Module m = res.getData();
             List<ModuleResp.Module.Detail> items = m.getModuleList();
             return items;
@@ -126,9 +146,8 @@ public class GetData {
 
         String responseBody = response.body().string();
         log.info("获取Course返回：{}", responseBody);
-        CourseResp res = JSONObject.parseObject(responseBody, CourseResp.class);
-
         if (response.isSuccessful()) {
+            CourseResp res = JSONObject.parseObject(responseBody, CourseResp.class);
             List<CourseResp.CourseData.Cuorses.Detail> details = res.getData().getCourseList().getList();
             return details;
         }
@@ -159,9 +178,9 @@ public class GetData {
         Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
         log.info("获取课程中的视频返回：{}", responseBody);
-        VideoResp res = JSONObject.parseObject(responseBody, VideoResp.class);
 
         if (response.isSuccessful()) {
+            VideoResp res = JSONObject.parseObject(responseBody, VideoResp.class);
             List<VideoResp.Data> data = res.getData();
             return data;
         }

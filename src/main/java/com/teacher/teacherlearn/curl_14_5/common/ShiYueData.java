@@ -1,9 +1,9 @@
 package com.teacher.teacherlearn.curl_14_5.common;
 
-public class SunData {
+public class ShiYueData {
 
-    public static String userName = "18231738529";
-    public static String passWord = "Wolove11997";
+    public static String userName = "18301192170";
+    public static String passWord = "950910Wsy";
 
     public static String classId = "638519743941120000";
     public static String platformId = "13145854983311";

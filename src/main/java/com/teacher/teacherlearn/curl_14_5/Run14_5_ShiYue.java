@@ -1,6 +1,6 @@
 package com.teacher.teacherlearn.curl_14_5;
 
-import com.teacher.teacherlearn.curl_14_5.common.SunData;
+import com.teacher.teacherlearn.curl_14_5.common.ShiYueData;
 import com.teacher.teacherlearn.curl_14_5.pojo.CourseResp;
 import com.teacher.teacherlearn.curl_14_5.pojo.LearnMessage;
 import com.teacher.teacherlearn.curl_14_5.pojo.ModuleResp;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class Run14_5_Sun {
+public class Run14_5_ShiYue {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -26,9 +26,9 @@ public class Run14_5_Sun {
         Login login = new Login();
         GetData g = new GetData();
 
-        String uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
+        String uToken = login.login(ShiYueData.userName, ShiYueData.passWord, ShiYueData.platformId, ShiYueData.service);
 
-        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, SunData.projectId, SunData.classId);
+        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, ShiYueData.projectId, ShiYueData.classId);
         for (LearnMessage learn : learnMessages) {
             List<ModuleResp.Module.Detail> moudules = g.getModelIds(uToken, learn.getItemId());
             for (ModuleResp.Module.Detail m : moudules) {
@@ -87,7 +87,7 @@ public class Run14_5_Sun {
                             }
                             if (res.equals("1001")) {
                                 log.info("登录失效");
-                                uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
+                                uToken = login.login(ShiYueData.userName, ShiYueData.passWord, ShiYueData.platformId, ShiYueData.service);
                                 continue;
                             }
                             playProgress = Integer.valueOf(res) + 60;

@@ -2,6 +2,7 @@ package com.teacher.teacherlearn.curl_14_5;
 
 import com.alibaba.fastjson.JSONObject;
 import com.teacher.teacherlearn.curl_14_5.common.SunData;
+import com.teacher.teacherlearn.curl_14_5.pojo.LearnResp;
 import com.teacher.teacherlearn.curl_14_5.pojo.LearnStruct;
 import com.teacher.teacherlearn.curl_14_5.pojo.VideoResp;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class Run14_5_1 {
         Login login = new Login();
         GetData g = new GetData();
 
-        String uToken = login.login();
+        String uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
 
         Path path = Paths.get("src/main/java/com/teacher/teacherlearn/curl_14_5", "catalog_data/data2.json");
         String data = new String(Files.readAllBytes(path));
@@ -91,7 +92,7 @@ public class Run14_5_1 {
                     }
                     if (res.equals("1001")) {
                         log.info("登录失效");
-                        uToken = login.login();
+                        uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
                         continue;
                     }
                     playProgress = Integer.valueOf(res) + 60;
