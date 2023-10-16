@@ -26,6 +26,7 @@ public class UserInfoResp implements Serializable {
         @ToString
         public static class ProjectClass implements Serializable {
 
+            //classid
             String id;
             String orgId;
             String projectId;

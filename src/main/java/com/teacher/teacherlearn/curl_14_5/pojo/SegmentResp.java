@@ -24,6 +24,7 @@ public class SegmentResp implements Serializable {
         public static class Seg implements Serializable {
             private String id;
             private String name;
+            private String totalHour;
             private List<Item> itemList;
 
             @Setter

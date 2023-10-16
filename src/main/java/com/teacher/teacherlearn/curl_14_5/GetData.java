@@ -81,6 +81,7 @@ public class GetData {
                 learnMessage.setSegId(s.getId());
                 learnMessage.setSegName(s.getName());
                 learnMessage.setItemId(s.getItemList().get(0).getId());
+                learnMessage.setTotalHour(s.getTotalHour());
                 learnMessages.add(learnMessage);
             }
         }
@@ -218,12 +219,9 @@ public class GetData {
         Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
         log.info("刷课请求返回：{}", responseBody);
+        LearnResp res = JSONObject.parseObject(responseBody, LearnResp.class);
         if (response.isSuccessful()) {
-
-            LearnResp res = JSONObject.parseObject(responseBody, LearnResp.class);
-            if (res.getResultCode() == 3003) {
-                return "3003";
-            } else if (res.getResultCode() == 0) {
+            if (res.getResultCode() == 0) {
                 if (res.getData().getProgress().equals("-1")) {
                     return "-1";
                 } else if (res.getData().getProgress().equals("1.0")) {
@@ -233,9 +231,13 @@ public class GetData {
                     //继续刷课
                     return res.getData().getVideoProgress();
                 }
-            } else if (res.getResultCode() == 1001) {
-                return "1001";
             }
+        }
+        if (res.getResultCode() == 1001) {
+            return "1001";
+        }
+        if (res.getResultCode() == 3003) {
+            return "3003";
         }
         return "-1";
     }

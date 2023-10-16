@@ -19,4 +19,5 @@ public class LearnMessage implements Serializable {
      */
     private String itemId;
     private String segName;
+    private String totalHour;
 }

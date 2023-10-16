@@ -1,6 +1,8 @@
 package com.teacher.teacherlearn.curl_14_5;
 
 import com.teacher.teacherlearn.curl_14_5.common.ShiYueData;
+import com.teacher.teacherlearn.curl_14_5.common.SunData;
+import com.teacher.teacherlearn.curl_14_5.exam.Exam;
 import com.teacher.teacherlearn.curl_14_5.pojo.CourseResp;
 import com.teacher.teacherlearn.curl_14_5.pojo.LearnMessage;
 import com.teacher.teacherlearn.curl_14_5.pojo.ModuleResp;
@@ -31,13 +33,25 @@ public class Run14_5_ShiYue {
         List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, ShiYueData.projectId, ShiYueData.classId);
         for (LearnMessage learn : learnMessages) {
             List<ModuleResp.Module.Detail> moudules = g.getModelIds(uToken, learn.getItemId());
+            String totalHour = learn.getTotalHour();
+            int period = 0;
             for (ModuleResp.Module.Detail m : moudules) {
                 log.info("moduleId:{}，MouduleName:{}", m.getId(), m.getName());
                 List<CourseResp.CourseData.Cuorses.Detail> courses = g.getCourse(uToken, learn.getSegId(), learn.getItemId(), m.getId());
                 for (CourseResp.CourseData.Cuorses.Detail c : courses) {
                     log.info("CourseId:{}，CourseName:{},进度：{}", c.getCourseId(), c.getCourseName(), c.getCourseProgress());
                     if (c.getCourseProgress().equals("100")) {
-                        log.info("课程：{}，进度：{}，学习完跳过", c.getCourseName(), c.getCourseProgress());
+                        period += Double.valueOf(c.getPeriod()).intValue();
+                        log.info("课程：{}，进度：{}，总学习时长：{}，学习完跳过", c.getCourseName(), c.getCourseProgress(), period);
+                        if (!c.getExamProgress().equals("100")) {
+                            log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
+                            Exam exam = new Exam();
+                            exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                        }
+                        continue;
+                    }
+                    if (Double.valueOf(totalHour).intValue() == period) {
+                        log.info("{}已看够{}小时无需再看", learn.getSegName(), period);
                         continue;
                     }
                     log.info("=========新课程 刷新冲突校验开始=========");

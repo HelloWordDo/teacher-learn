@@ -35,6 +35,10 @@ public class CourseResp implements Serializable {
                 String courseId;
                 String courseName;
                 String courseProgress;
+                String examId;
+                String examProgress;
+                String period;
+                String itemExamId;
             }
         }
     }
