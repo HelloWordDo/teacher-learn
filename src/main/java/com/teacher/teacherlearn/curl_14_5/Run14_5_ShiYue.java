@@ -50,7 +50,7 @@ public class Run14_5_ShiYue {
                         }
                         continue;
                     }
-                    if (Double.valueOf(totalHour).intValue() == period) {
+                    if (Double.valueOf(totalHour).intValue() <= period) {
                         log.info("{}已看够{}小时无需再看", learn.getSegName(), period);
                         continue;
                     }
