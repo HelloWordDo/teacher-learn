@@ -188,7 +188,7 @@ public class GetData {
         return Collections.EMPTY_LIST;
     }
 
-    public String watch(String segId, String itemId, String courseId, String videoId, String playProgress, String uToken) throws IOException {
+    public String watch(String segId, String itemId, String courseId, String videoId, String playProgress, String uToken, String projectId, String orgId) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
@@ -202,13 +202,13 @@ public class GetData {
         builder.add("type", "1");
         builder.add("tjzj", "1");
         builder.add("clockInDot", playProgress);
-        builder.add("sourceId", SunData.sourceId);
+        builder.add("sourceId", projectId);
         builder.add("clockInRule", "1");
         builder.add("timeLimit", "-1");
         FormBody body = builder.build();
 
         Request request = new Request.Builder()
-                .url("https://www.ttcdw.cn/p/course/services/member/study/progress?orgId=" + SunData.orgId)
+                .url("https://www.ttcdw.cn/p/course/services/member/study/progress?orgId=" + orgId)
                 .method("POST", body)
                 .addHeader("content-type", "application/x-www-form-urlencoded; charset=UTF-8")
                 .addHeader("cookie", "u-token=" + uToken)

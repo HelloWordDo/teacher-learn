@@ -77,7 +77,7 @@ public class Run14_5_Sun {
 //                            }
 
                             log.info("开始刷课!!!!信息：进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", playProgress, topName, secondName, courseName, videoName);
-                            res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken);
+                            res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken, SunData.projectId, SunData.orgId);
                             log.info("开始刷课结束!!!返回：{}", res);
                             if (res.equals("-1")) {
                                 log.info("返回-1，刷的太快，时间不够，休息10s");
