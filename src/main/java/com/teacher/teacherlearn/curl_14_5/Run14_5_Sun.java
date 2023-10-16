@@ -27,8 +27,7 @@ public class Run14_5_Sun {
         Login login = new Login();
         GetData g = new GetData();
 
-//        String uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
-        String uToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3NDAwOWZiZS0yM2E4LTQ5ZDItODg5YS03ZDY3OTZmZjAwOGMiLCJpYXQiOjE2OTc0MzYwODYsInN1YiI6IjczNjcxODQyOTg4Njg5NDA4MCIsImlzcyI6Imd1b3JlbnQiLCJhdHRlc3RTdGF0ZSI6MCwic3JjIjoid2ViIiwiYWN0aXZlU3RhdGUiOjEsIm1vYmlsZSI6IjE4MjMxNzM4NTI5IiwicGxhdGZvcm1JZCI6IjEzMTQ1ODU0OTgzMzExIiwiYWNjb3VudCI6IjE4MjMxNzM4NTI5IiwiZXhwIjoxNjk3NDcyMDg2fQ.ScmA-XNn6xKzvmlnfpygogZOU3jmRuhkftDciJABTTw;domain=.ttcdw.cn;path=/;Secure=true;SameSite=None";
+        String uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
 
         List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, SunData.projectId, SunData.classId);
         for (LearnMessage learn : learnMessages) {
@@ -87,6 +86,11 @@ public class Run14_5_Sun {
                             }
 
                             if (res.equals("1")) {
+                                if (!c.getExamProgress().equals("100")) {
+                                    log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
+                                    Exam exam = new Exam();
+                                    exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                                }
                                 log.info("================================================================");
                                 log.info("=====================学完了，跳出，进行下一个视频===================");
                                 log.info("================================================================");

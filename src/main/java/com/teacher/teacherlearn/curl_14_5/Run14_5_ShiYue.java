@@ -90,6 +90,11 @@ public class Run14_5_ShiYue {
                                 log.info("================================================================");
                                 log.info("=====================学完了，跳出，进行下一个视频===================");
                                 log.info("================================================================");
+                                if (!c.getExamProgress().equals("100")) {
+                                    log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
+                                    Exam exam = new Exam();
+                                    exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                                }
                                 break;
                             }
 
