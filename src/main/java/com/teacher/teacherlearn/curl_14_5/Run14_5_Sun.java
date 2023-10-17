@@ -119,6 +119,7 @@ public class Run14_5_Sun {
                     if (!c.getExamProgress().equals("100")) {
                         log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
                         Exam exam = new Exam();
+                        Thread.sleep(60000 * 3);
                         exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
                     }
                 }
