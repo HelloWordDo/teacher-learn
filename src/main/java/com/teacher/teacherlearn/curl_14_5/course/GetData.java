@@ -1,8 +1,9 @@
-package com.teacher.teacherlearn.curl_14_5;
+package com.teacher.teacherlearn.curl_14_5.course;
 
 import com.alibaba.fastjson.JSONObject;
+import com.teacher.teacherlearn.curl_14_5.Login;
 import com.teacher.teacherlearn.curl_14_5.common.SunData;
-import com.teacher.teacherlearn.curl_14_5.pojo.*;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;

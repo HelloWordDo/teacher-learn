@@ -1,13 +1,13 @@
 package com.teacher.teacherlearn.curl_14_5;
 
-import com.teacher.teacherlearn.curl_14_5.common.ShiYueData;
+import com.teacher.teacherlearn.curl_14_5.common.PeiQiData;
 import com.teacher.teacherlearn.curl_14_5.common.SunData;
 import com.teacher.teacherlearn.curl_14_5.course.GetData;
-import com.teacher.teacherlearn.curl_14_5.exam.Exam;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.CourseResp;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.LearnMessage;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.ModuleResp;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.VideoResp;
+import com.teacher.teacherlearn.curl_14_5.exam.Exam;
 import com.teacher.teacherlearn.curl_14_5.jwt.Jwt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class Run14_5_ShiYue {
+public class Run14_5_PeiQi {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -30,9 +30,9 @@ public class Run14_5_ShiYue {
         Login login = new Login();
         GetData g = new GetData();
         Jwt j = new Jwt();
-        String uToken = login.login(ShiYueData.userName, ShiYueData.passWord, ShiYueData.platformId, ShiYueData.service);
+        String uToken = login.login(PeiQiData.userName, PeiQiData.passWord, PeiQiData.platformId, PeiQiData.service);
         String exp = j.decodeJwt(uToken);
-        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, ShiYueData.projectId, ShiYueData.classId);
+        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, PeiQiData.projectId, PeiQiData.classId);
         for (LearnMessage learn : learnMessages) {
             List<ModuleResp.Module.Detail> moudules = g.getModelIds(uToken, learn.getItemId());
             String totalHour = learn.getTotalHour();
@@ -85,7 +85,7 @@ public class Run14_5_ShiYue {
                                 exp = j.decodeJwt(uToken);
                             }
                             log.info("开始刷课!!!!信息：进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", playProgress, topName, secondName, courseName, videoName);
-                            res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken, ShiYueData.projectId, ShiYueData.orgId);
+                            res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken, PeiQiData.projectId, PeiQiData.orgId);
                             log.info("开始刷课结束!!!返回：{}", res);
                             if (res.equals("-1")) {
                                 log.info("返回-1，刷的太快，时间不够，休息10s");
@@ -113,7 +113,7 @@ public class Run14_5_ShiYue {
                             }
                             if (res.equals("1001")) {
                                 log.info("登录失效");
-                                uToken = login.login(ShiYueData.userName, ShiYueData.passWord, ShiYueData.platformId, ShiYueData.service);
+                                uToken = login.login(PeiQiData.userName, PeiQiData.passWord, PeiQiData.platformId, PeiQiData.service);
                                 continue;
                             }
                             playProgress = Integer.valueOf(res) + 60;

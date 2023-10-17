@@ -1,11 +1,13 @@
 package com.teacher.teacherlearn.curl_14_5;
 
 import com.teacher.teacherlearn.curl_14_5.common.SunData;
+import com.teacher.teacherlearn.curl_14_5.course.GetData;
 import com.teacher.teacherlearn.curl_14_5.exam.Exam;
-import com.teacher.teacherlearn.curl_14_5.pojo.CourseResp;
-import com.teacher.teacherlearn.curl_14_5.pojo.LearnMessage;
-import com.teacher.teacherlearn.curl_14_5.pojo.ModuleResp;
-import com.teacher.teacherlearn.curl_14_5.pojo.VideoResp;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.CourseResp;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.LearnMessage;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.ModuleResp;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.VideoResp;
+import com.teacher.teacherlearn.curl_14_5.jwt.Jwt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +28,9 @@ public class Run14_5_Sun {
         //目录->页->课程->video
         Login login = new Login();
         GetData g = new GetData();
-
+        Jwt j = new Jwt();
         String uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
-
+        String exp = j.decodeJwt(uToken);
         List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, SunData.projectId, SunData.classId);
         for (LearnMessage learn : learnMessages) {
             List<ModuleResp.Module.Detail> moudules = g.getModelIds(uToken, learn.getItemId());
@@ -76,6 +78,12 @@ public class Run14_5_Sun {
 //                                continue;
 //                            }
 
+                            long now = System.currentTimeMillis() / 1000;
+                            if (Long.parseLong(exp) - now < 60 * 60) {
+                                log.info("距离过期时间不足一小时,开始刷新Token");
+                                uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
+                                exp = j.decodeJwt(uToken);
+                            }
                             log.info("开始刷课!!!!信息：进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", playProgress, topName, secondName, courseName, videoName);
                             res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken, SunData.projectId, SunData.orgId);
                             log.info("开始刷课结束!!!返回：{}", res);

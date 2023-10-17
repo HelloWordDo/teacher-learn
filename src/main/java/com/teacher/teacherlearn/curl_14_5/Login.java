@@ -38,8 +38,9 @@ public class Login {
 
         for (int i = 0; i < responseHeaders.size(); i++) {
             if (responseHeaders.value(i).contains("u-token=")) {
-                log.info("登录请求获取到Token：{}", responseHeaders.value(i));
                 token = responseHeaders.value(i).split("=")[1];
+                token = token.split(";")[0];
+                log.info("登录请求获取到Token：{}", token);
             }
         }
         return token;

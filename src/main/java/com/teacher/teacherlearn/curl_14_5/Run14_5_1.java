@@ -2,9 +2,10 @@ package com.teacher.teacherlearn.curl_14_5;
 
 import com.alibaba.fastjson.JSONObject;
 import com.teacher.teacherlearn.curl_14_5.common.SunData;
-import com.teacher.teacherlearn.curl_14_5.pojo.LearnResp;
-import com.teacher.teacherlearn.curl_14_5.pojo.LearnStruct;
-import com.teacher.teacherlearn.curl_14_5.pojo.VideoResp;
+import com.teacher.teacherlearn.curl_14_5.course.GetData;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.LearnResp;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.LearnStruct;
+import com.teacher.teacherlearn.curl_14_5.course.pojo.VideoResp;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
