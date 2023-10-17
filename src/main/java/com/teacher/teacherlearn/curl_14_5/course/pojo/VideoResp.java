@@ -21,5 +21,6 @@ public class VideoResp implements Serializable {
     public static class Data implements Serializable {
         private String videoId;
         private String name;
+        private String duration;
     }
 }

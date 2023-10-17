@@ -56,6 +56,9 @@ public class Exam {
         log.info("开始测验按钮返回：{}", responseBody);
         if (response.isSuccessful()) {
             ExamAnswer res = JSONObject.parseObject(responseBody, ExamAnswer.class);
+            if (res.getData() == null) {
+                return null;
+            }
             return res.getData().getExam();
         }
         return null;

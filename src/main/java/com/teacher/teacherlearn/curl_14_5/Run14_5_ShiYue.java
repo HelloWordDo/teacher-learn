@@ -72,7 +72,7 @@ public class Run14_5_ShiYue {
                         while (true) {
                             Calendar cal = Calendar.getInstance();
                             int h = cal.get(Calendar.HOUR_OF_DAY);
-                            log.info("当前时间：{}", h);
+//                            log.info("当前时间：{}", h);
 //                            if (h <= 9 || h >= 22) {
 //                                log.info("休息1小时");
 //                                Thread.sleep(60 * 60 * 1000);
@@ -84,11 +84,10 @@ public class Run14_5_ShiYue {
                                 uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
                                 exp = j.decodeJwt(uToken);
                             }
-                            log.info("开始刷课!!!!信息：进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", playProgress, topName, secondName, courseName, videoName);
+                            log.info("开始刷课!!!!总进度：{}，进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", v.getDuration(), playProgress, topName, secondName, courseName, videoName);
                             res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken, ShiYueData.projectId, ShiYueData.orgId);
-                            log.info("开始刷课结束!!!返回：{}", res);
+                            log.info("开始刷课结束!!!返回进度：{}", res);
                             if (res.equals("-1")) {
-                                log.info("返回-1，刷的太快，时间不够，休息10s");
                                 Thread.sleep(10000);
                                 continue;
                             }
@@ -117,12 +116,11 @@ public class Run14_5_ShiYue {
                                 continue;
                             }
                             playProgress = Integer.valueOf(res) + 60;
-                            log.info("60s休息开始");
                             Thread.sleep(60000);
-                            log.info("60s休息结束");
                         }
                     }
-
+                    period += Double.valueOf(c.getPeriod()).intValue();
+                    log.info("期望时长：{}，总学习时长：{}", totalHour, period);
                 }
             }
         }
