@@ -1,13 +1,12 @@
 package com.teacher.teacherlearn.curl_14_5;
 
 import com.teacher.teacherlearn.curl_14_5.common.ShiYueData;
-import com.teacher.teacherlearn.curl_14_5.common.SunData;
 import com.teacher.teacherlearn.curl_14_5.course.GetData;
-import com.teacher.teacherlearn.curl_14_5.exam.Exam;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.CourseResp;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.LearnMessage;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.ModuleResp;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.VideoResp;
+import com.teacher.teacherlearn.curl_14_5.exam.Exam;
 import com.teacher.teacherlearn.curl_14_5.jwt.Jwt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -48,7 +47,7 @@ public class Run14_5_ShiYue {
                         if (!c.getExamProgress().equals("100")) {
                             log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
                             Exam exam = new Exam();
-                            exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                            exam.excamChain(uToken, ShiYueData.projectId, ShiYueData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
                         }
                         continue;
                     }
@@ -81,7 +80,7 @@ public class Run14_5_ShiYue {
                             long now = System.currentTimeMillis() / 1000;
                             if (Long.parseLong(exp) - now < 60 * 60) {
                                 log.info("距离过期时间不足一小时,开始刷新Token");
-                                uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
+                                uToken = login.login(ShiYueData.userName, ShiYueData.passWord, ShiYueData.platformId, ShiYueData.service);
                                 exp = j.decodeJwt(uToken);
                             }
                             log.info("开始刷课!!!!总进度：{}，进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", v.getDuration(), playProgress, topName, secondName, courseName, videoName);
@@ -120,7 +119,7 @@ public class Run14_5_ShiYue {
                         log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
                         Exam exam = new Exam();
                         Thread.sleep(60000 * 3);
-                        exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                        exam.excamChain(uToken, ShiYueData.projectId, ShiYueData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
                     }
                 }
             }

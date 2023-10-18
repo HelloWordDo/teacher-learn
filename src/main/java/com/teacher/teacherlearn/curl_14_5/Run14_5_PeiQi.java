@@ -1,7 +1,6 @@
 package com.teacher.teacherlearn.curl_14_5;
 
 import com.teacher.teacherlearn.curl_14_5.common.PeiQiData;
-import com.teacher.teacherlearn.curl_14_5.common.SunData;
 import com.teacher.teacherlearn.curl_14_5.course.GetData;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.CourseResp;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.LearnMessage;
@@ -48,7 +47,7 @@ public class Run14_5_PeiQi {
                         if (!c.getExamProgress().equals("100")) {
                             log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
                             Exam exam = new Exam();
-                            exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                            exam.excamChain(uToken, PeiQiData.projectId, PeiQiData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
                         }
                         continue;
                     }
@@ -81,7 +80,7 @@ public class Run14_5_PeiQi {
                             long now = System.currentTimeMillis() / 1000;
                             if (Long.parseLong(exp) - now < 60 * 60) {
                                 log.info("距离过期时间不足一小时,开始刷新Token");
-                                uToken = login.login(SunData.userName, SunData.passWord, SunData.platformId, SunData.service);
+                                uToken = login.login(PeiQiData.userName, PeiQiData.passWord, PeiQiData.platformId, PeiQiData.service);
                                 exp = j.decodeJwt(uToken);
                             }
                             log.info("开始刷课!!!!总进度：{}，进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", v.getDuration(), playProgress, topName, secondName, courseName, videoName);
@@ -120,7 +119,7 @@ public class Run14_5_PeiQi {
                         log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
                         Exam exam = new Exam();
                         Thread.sleep(60000 * 3);
-                        exam.excamChain(uToken, SunData.projectId, SunData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                        exam.excamChain(uToken, PeiQiData.projectId, PeiQiData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
                     }
                 }
             }
