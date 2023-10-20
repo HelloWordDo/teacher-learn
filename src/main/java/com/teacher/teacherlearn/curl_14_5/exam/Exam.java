@@ -8,7 +8,6 @@ import okhttp3.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -103,11 +102,11 @@ public class Exam {
     }
 
 
-    public void excamChain(String uToken, String projectId, String classId, String itemId, String itemExamId, String segId) throws IOException, InterruptedException {
+    public boolean excamChain(String uToken, String projectId, String classId, String itemId, String itemExamId, String segId) throws IOException, InterruptedException {
         ExamInfo.Data.Exam exam = getExamInfo(uToken, projectId, classId, itemId, itemExamId);
         if (exam == null) {
             log.info("没有试卷跳过");
-            return;
+            return false;
         }
         ExamAnswer.Data.Exam answerExam = toExam(uToken, itemId, exam.getExamResourceId(), segId, projectId);
         String examPaperId = answerExam.getId();
@@ -127,13 +126,12 @@ public class Exam {
                         answerIds.add(an.getId());
                     }
                 }
-                log.info("选择答案");
                 clickAnswer(uToken, memExamId, assessId, questionId, answerIds);
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             }
         }
-        log.info("提交答案");
         submit(uToken, itemId, memExamId, examPaperId, projectId, segId);
+        return true;
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {

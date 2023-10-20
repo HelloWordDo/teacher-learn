@@ -1,6 +1,6 @@
 package com.teacher.teacherlearn.curl_14_5;
 
-import com.teacher.teacherlearn.curl_14_5.common.PeiQiData;
+import com.teacher.teacherlearn.curl_14_5.common.LiangData;
 import com.teacher.teacherlearn.curl_14_5.course.GetData;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.CourseResp;
 import com.teacher.teacherlearn.curl_14_5.course.pojo.LearnMessage;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class Run14_5_PeiQi {
+public class Run14_5_Liang {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -29,9 +29,9 @@ public class Run14_5_PeiQi {
         Login login = new Login();
         GetData g = new GetData();
         Jwt j = new Jwt();
-        String uToken = login.login(PeiQiData.userName, PeiQiData.passWord, PeiQiData.platformId, PeiQiData.service);
+        String uToken = login.login(LiangData.userName, LiangData.passWord, LiangData.platformId, LiangData.service);
         String exp = j.decodeJwt(uToken);
-        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, PeiQiData.projectId, PeiQiData.classId);
+        List<LearnMessage> learnMessages = g.getSegIdAndItemId(uToken, LiangData.projectId, LiangData.classId);
         for (LearnMessage learn : learnMessages) {
             List<ModuleResp.Module.Detail> moudules = g.getModelIds(uToken, learn.getItemId());
             String totalHour = learn.getTotalHour();
@@ -47,7 +47,7 @@ public class Run14_5_PeiQi {
                         if (!c.getExamProgress().equals("100")) {
                             log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
                             Exam exam = new Exam();
-                            exam.excamChain(uToken, PeiQiData.projectId, PeiQiData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                            exam.excamChain(uToken, LiangData.projectId, LiangData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
                         }
                         continue;
                     }
@@ -80,11 +80,11 @@ public class Run14_5_PeiQi {
                             long now = System.currentTimeMillis() / 1000;
                             if (Long.parseLong(exp) - now < 60 * 60) {
                                 log.info("距离过期时间不足一小时,开始刷新Token");
-                                uToken = login.login(PeiQiData.userName, PeiQiData.passWord, PeiQiData.platformId, PeiQiData.service);
+                                uToken = login.login(LiangData.userName, LiangData.passWord, LiangData.platformId, LiangData.service);
                                 exp = j.decodeJwt(uToken);
                             }
                             log.info("开始刷课!!!!总进度：{}，进度：{}，Topic1：{}，Topic2：{}，课程：{}，视频：{}", v.getDuration(), playProgress, topName, secondName, courseName, videoName);
-                            res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken, PeiQiData.projectId, PeiQiData.orgId);
+                            res = g.watch(learn.getSegId(), learn.getItemId(), c.getCourseId(), videoId, String.valueOf(playProgress), uToken, LiangData.projectId, LiangData.orgId);
                             log.info("开始刷课结束!!!返回进度：{}", res);
                             if (res.equals("-1")) {
                                 Thread.sleep(10000);
@@ -106,7 +106,7 @@ public class Run14_5_PeiQi {
                             }
                             if (res.equals("1001")) {
                                 log.info("登录失效");
-                                uToken = login.login(PeiQiData.userName, PeiQiData.passWord, PeiQiData.platformId, PeiQiData.service);
+                                uToken = login.login(LiangData.userName, LiangData.passWord, LiangData.platformId, LiangData.service);
                                 continue;
                             }
                             playProgress = Integer.valueOf(res) + 60;
@@ -119,7 +119,7 @@ public class Run14_5_PeiQi {
                         log.info("课程：{},考试进度：{},开始考试", c.getCourseName(), c.getExamProgress());
                         Exam exam = new Exam();
                         Thread.sleep(60000 * 8);
-                        exam.excamChain(uToken, PeiQiData.projectId, PeiQiData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
+                        exam.excamChain(uToken, LiangData.projectId, LiangData.classId, learn.getItemId(), c.getItemExamId(), learn.getSegId());
                     }
                 }
             }
