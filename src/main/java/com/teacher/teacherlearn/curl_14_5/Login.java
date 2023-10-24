@@ -4,10 +4,12 @@ import com.teacher.teacherlearn.curl_14_5.common.SunData;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import okhttp3.RequestBody;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Slf4j
+@Component
 public class Login {
 
     public static void main(String[] args) throws IOException {

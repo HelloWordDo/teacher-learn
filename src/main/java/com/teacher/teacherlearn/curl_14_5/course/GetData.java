@@ -9,13 +9,16 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Component
 public class GetData {
 
     public static void main(String[] args) throws IOException {
@@ -191,6 +194,9 @@ public class GetData {
 
     public String watch(String segId, String itemId, String courseId, String videoId, String playProgress, String uToken, String projectId, String orgId) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()
+                .readTimeout(10000, TimeUnit.MILLISECONDS)
+                .connectTimeout(10000, TimeUnit.MILLISECONDS)
+                .writeTimeout(10000, TimeUnit.MILLISECONDS)
                 .build();
 
         FormBody.Builder builder = new FormBody.Builder();

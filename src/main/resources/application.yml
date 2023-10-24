@@ -1,0 +1,37 @@
+account:
+  fourteen-five:
+    class-id: 638519743941120000
+    platform-id: 13145854983311
+    org-id: 622293883621437440
+    project-id: 622297127378276352
+    service: https://www.ttcdw.cn/p/uc/projectCenter/${account.fourteen-five.project-id}/index/${account.fourteen-five.class-id}?orgId=${account.fourteen-five.org-id}
+  user:
+    - name: '云娟'
+      user-name: 18231738529
+      pass-word: Wolove11997
+      finish: true
+    - name: '师月'
+      user-name: 18301192170
+      pass-word: 950910Wsy
+      finish: true
+    - name: '佩琪'
+      user-name: 90824059
+      pass-word: Liu90824059
+      finish: true
+    - name: '永老师'
+      user-name: 90814074
+      pass-word: Flybird1206*
+      finish: false
+    - name: '赵海霞'
+      user-name: 90802511
+      pass-word: zgcsxZHX760926
+      finish: false
+    - name: '梁静'
+      user-name: 90831352
+      pass-word: Yang31415926
+      finish: false
+
+logging:
+  pattern:
+    console: '%date{yyyy-MM-dd HH:mm:ss.SSS,GMT+8} %level [%thread] %logger{10} [%file:%line] - %msg%n'
+

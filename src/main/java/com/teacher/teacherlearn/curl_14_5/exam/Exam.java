@@ -3,14 +3,17 @@ package com.teacher.teacherlearn.curl_14_5.exam;
 import com.alibaba.fastjson.JSONObject;
 import com.teacher.teacherlearn.curl_14_5.exam.pojo.ExamAnswer;
 import com.teacher.teacherlearn.curl_14_5.exam.pojo.ExamInfo;
+import com.teacher.teacherlearn.curl_14_5.exam.pojo.ExamRequest;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Component
 public class Exam {
 
     //Setp1:获取excamInfo
@@ -132,6 +135,10 @@ public class Exam {
         }
         submit(uToken, itemId, memExamId, examPaperId, projectId, segId);
         return true;
+    }
+
+    public boolean excamChain(ExamRequest examRequest) throws IOException, InterruptedException {
+        return excamChain(examRequest.getUToken(), examRequest.getProjectId(), examRequest.getClassId(), examRequest.getItemId(), examRequest.getItemExamId(), examRequest.getSegId());
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
