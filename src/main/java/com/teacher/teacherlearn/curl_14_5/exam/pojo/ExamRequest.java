@@ -2,14 +2,13 @@ package com.teacher.teacherlearn.curl_14_5.exam.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.Delayed;
-import java.util.concurrent.TimeUnit;
 
 @Getter
 @Setter
-public class ExamRequest implements Delayed {
+@ToString
+public class ExamRequest implements Comparable<ExamRequest> {
 
     /**
      * 默认延迟5分钟
@@ -33,12 +32,7 @@ public class ExamRequest implements Delayed {
     }
 
     @Override
-    public long getDelay(@NotNull TimeUnit unit) {
-        return unit.convert(this.executeTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-    }
-
-    @Override
-    public int compareTo(@NotNull Delayed o) {
-        return (int) (this.getDelay(TimeUnit.MILLISECONDS) - o.getDelay(TimeUnit.MILLISECONDS));
+    public int compareTo(@NotNull ExamRequest o) {
+        return (int) (this.getExecuteTime() - o.getExecuteTime());
     }
 }

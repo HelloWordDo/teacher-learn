@@ -21,17 +21,21 @@ account:
     - name: '永老师'
       user-name: 90814074
       pass-word: Flybird1206*
-      finish: false
+      finish: true
     - name: '赵海霞'
       user-name: 90802511
       pass-word: zgcsxZHX760926
-      finish: false
+      finish: true
     - name: '梁静'
       user-name: 90831352
       pass-word: Yang31415926
+      finish: true
+    - name: '赵静'
+      user-name: 90520823
+      pass-word: Founder123
       finish: false
 
 logging:
   pattern:
-    console: '%date{yyyy-MM-dd HH:mm:ss.SSS,GMT+8} %level [%thread] %logger{10} [%file:%line] - %msg%n'
+    console: '%date{yyyy-MM-dd HH:mm:ss,GMT+8} %level [%thread] %logger{10} [%file:%line] %msg%n'
 

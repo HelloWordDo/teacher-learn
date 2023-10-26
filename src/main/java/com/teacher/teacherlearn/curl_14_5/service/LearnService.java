@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.DelayQueue;
+import java.util.PriorityQueue;
 
 @Slf4j
 @Service
@@ -32,7 +32,7 @@ public class LearnService {
     Exam exam;
     @Autowired
     Jwt jwt;
-    DelayQueue<ExamRequest> queue = new DelayQueue<>();
+    PriorityQueue<ExamRequest> queue = new PriorityQueue<>();
 
     @Async
     public void learn(User u, FourteenFive fourteenFive) throws IOException, InterruptedException {
@@ -63,10 +63,10 @@ public class LearnService {
                         }
                         continue;
                     }
-//                    if (Double.valueOf(totalHour).intValue() <= period) {
-//                        log.info("{}已看够{}小时无需再看", learn.getSegName(), period);
-//                        continue;
-//                    }
+                    if (Double.valueOf(totalHour).intValue() <= period && !learn.getSegName().equals("现代信息技术")) {
+                        log.info("{}已看够{}小时无需再看", learn.getSegName(), period);
+                        continue;
+                    }
                     List<VideoResp.Data> videos = getData.getVideo(learn.getSegId(), learn.getItemId(), c.getCourseId(), uToken);
 
                     for (VideoResp.Data v : videos) {
@@ -103,7 +103,7 @@ public class LearnService {
                             }
                             log.info("【{}】开始刷课结束，返回进度：{}", u.getName(), res);
                             if (res.equals("-1")) {
-                                Thread.sleep(10000);
+                                Thread.sleep(1000L * 30);
                                 continue;
                             }
                             if (res.equals("1")) {
@@ -140,28 +140,28 @@ public class LearnService {
     public void Exam() throws InterruptedException {
         while (true) {
             log.info("Queue剩余任务：{}", queue.size());
-
-            ExamRequest examRequest = queue.peek();
-            if (examRequest != null) {
-                examRequest = queue.poll();
-
-                long executeTime = examRequest.getExecuteTime();
-                if (executeTime <= System.currentTimeMillis()) {
-
-                    try {
-                        boolean success = exam.excamChain(examRequest);
-                        if (!success) {
-                            examRequest.setExecuteTime(System.currentTimeMillis() + 1000L * 60);
-                            queue.offer(examRequest);
-                        }
-                    } catch (Exception e) {
-                        log.error("考试出错:{}", e.getMessage());
-                        examRequest.setExecuteTime(System.currentTimeMillis() + 1000L * 60);
-                        queue.offer(examRequest);
-                    }
-                }
+            if (queue.size() == 0) {
+                Thread.sleep(1000L * 60);
+                continue;
             }
-            Thread.sleep(1000L * 60);
+            if (queue.peek().getExecuteTime() > System.currentTimeMillis()) {
+                Thread.sleep(1000L * 60);
+                continue;
+            }
+            ExamRequest examRequest = queue.poll();
+            log.info("获取到考试信息{}", examRequest);
+            try {
+                boolean success = exam.excamChain(examRequest);
+                if (!success) {
+                    examRequest.setExecuteTime(System.currentTimeMillis() + 1000L * 60);
+                    log.info("重新放入考试队列{}", examRequest);
+                    queue.offer(examRequest);
+                }
+            } catch (Exception e) {
+                log.error("考试出错:{}", e.getMessage());
+                examRequest.setExecuteTime(System.currentTimeMillis() + 1000L * 60);
+                queue.offer(examRequest);
+            }
         }
     }
 }
