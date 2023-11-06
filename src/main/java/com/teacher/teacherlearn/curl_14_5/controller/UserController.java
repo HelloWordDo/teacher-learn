@@ -7,6 +7,7 @@ import com.teacher.teacherlearn.curl_14_5.service.LearnService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public List<User> addUser(User user) throws IOException, InterruptedException {
+    public List<User> addUser(@RequestBody User user) throws IOException, InterruptedException {
         List<User> users = (List<User>) localCache.getValue("USER");
         users.add(user);
         localCache.put("USER", users);

@@ -33,7 +33,35 @@ account:
     - name: '赵静'
       user-name: 90520823
       pass-word: Founder123
+      finish: true
+    - name: '马校'
+      user-name: 90509879
+      pass-word: 90509879
+      finish: true
+    - name: '刘华青'
+      user-name: 90868163
+      pass-word: Lhq11111111
+      finish: true
+    - name: '马静'
+      user-name: 90821535
+      pass-word: My90821535
+      finish: true
+    - name: '孙睿'
+      user-name: 90837512
+      pass-word: SunRui0922
+      finish: true
+    - name: '孙福明'
+      user-name: 90854007
+      pass-word: sfm000827
+      finish: true
+    - name: '郝老师'
+      user-name: 90804655
+      pass-word: Qwhmq7758521
       finish: false
+    - name: '昝老师'
+      user-name: 90827444
+      pass-word:
+      finish: true
 
 logging:
   pattern:

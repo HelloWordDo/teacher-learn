@@ -38,7 +38,14 @@ public class LearnService {
     public void learn(User u, FourteenFive fourteenFive) throws IOException, InterruptedException {
 
         String uToken = login.login(u.getUserName(), u.getPassWord(), fourteenFive.getPlatformId(), fourteenFive.getService());
-        String exp = jwt.decodeJwt(uToken);
+        String exp = "";
+        try {
+            exp = jwt.decodeJwt(uToken);
+        } catch (Exception e) {
+            log.error("【{}】账号密码错误", u.getName());
+            return;
+        }
+
         List<LearnMessage> learnMessages = getData.getSegIdAndItemId(uToken, fourteenFive.getProjectId(), fourteenFive.getClassId());
         for (LearnMessage learn : learnMessages) {
             List<ModuleResp.Module.Detail> modules = getData.getModelIds(uToken, learn.getItemId());
@@ -63,8 +70,8 @@ public class LearnService {
                         }
                         continue;
                     }
-                    if (Double.valueOf(totalHour).intValue() <= period && !learn.getSegName().equals("现代信息技术")) {
-                        log.info("{}已看够{}小时无需再看", learn.getSegName(), period);
+                    if (Double.valueOf(totalHour).intValue() <= period) {
+                        log.info("【{}】{}已看够{}小时无需再看", u.getName(), learn.getSegName(), period);
                         continue;
                     }
                     List<VideoResp.Data> videos = getData.getVideo(learn.getSegId(), learn.getItemId(), c.getCourseId(), uToken);
@@ -134,6 +141,9 @@ public class LearnService {
                 }
             }
         }
+        log.info("=============================");
+        log.info("=     【{}】课程刷完     =", u.getName());
+        log.info("=============================");
     }
 
     @Async
