@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Component
@@ -130,7 +131,9 @@ public class Exam {
                     }
                 }
                 clickAnswer(uToken, memExamId, assessId, questionId, answerIds);
-                Thread.sleep(2000);
+                Random r = new Random();
+                int rr = 2000 + r.nextInt(5000 - 2000);
+                Thread.sleep(rr);
             }
         }
         submit(uToken, itemId, memExamId, examPaperId, projectId, segId);

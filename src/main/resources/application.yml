@@ -52,16 +52,32 @@ account:
       finish: true
     - name: '孙福明'
       user-name: 90854007
-      pass-word: sfm000827
+      pass-word: Sfm000827
       finish: true
     - name: '郝老师'
       user-name: 90804655
       pass-word: Qwhmq7758521
-      finish: false
-    - name: '昝老师'
-      user-name: 90827444
-      pass-word:
       finish: true
+    - name: '昝老师'
+      user-name: 15110169697
+      pass-word: Zan1988121
+      finish: false
+    - name: '魏聪聪'
+      user-name: 90858155
+      pass-word: Cong1314@
+      finish: true
+    - name: '语文老师'
+      user-name: 18811566215
+      pass-word: MMSmms220901
+      finish: false
+    - name: '前数学老师'
+      user-name: 17862703129
+      pass-word: Waqzero0405
+      finish: false
+    - name: '英语老师'
+      user-name: 13110019750
+      pass-word: '@Aa2183732'
+      finish: false
 
 logging:
   pattern:
