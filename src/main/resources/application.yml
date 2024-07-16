@@ -1,27 +1,40 @@
 account:
+  org-id: 622293883621437440
+  platform-id: 13145854983311
+
   fourteen-five:
     class-id: 638519743941120000
     platform-id: 13145854983311
     org-id: 622293883621437440
     project-id: 622297127378276352
     service: https://www.ttcdw.cn/p/uc/projectCenter/${account.fourteen-five.project-id}/index/${account.fourteen-five.class-id}?orgId=${account.fourteen-five.org-id}
+
+  ai-account:
+    url: https://www.ttcdw.cn/p/uc/services/
+    class-id: 869091559667716096
+    project-id: 869084482300928000
+
   user:
     - name: '云娟'
       user-name: 18231738529
       pass-word: Wolove11997
       finish: true
+      ai-finish: false
     - name: '师月'
       user-name: 18301192170
       pass-word: 950910Wsy
       finish: true
+      ai-finish: false
     - name: '佩琪'
       user-name: 90824059
       pass-word: Liu90824059
       finish: true
+      ai-finish: false
     - name: '永老师'
       user-name: 90814074
       pass-word: Flybird1206*
       finish: true
+      ai-finish: false
     - name: '赵海霞'
       user-name: 90802511
       pass-word: zgcsxZHX760926
@@ -61,7 +74,7 @@ account:
     - name: '昝老师'
       user-name: 15110169697
       pass-word: Zan1988121
-      finish: false
+      finish: true
     - name: '魏聪聪'
       user-name: 90858155
       pass-word: Cong1314@
@@ -69,15 +82,35 @@ account:
     - name: '语文老师'
       user-name: 18811566215
       pass-word: MMSmms220901
-      finish: false
+      finish: true
     - name: '前数学老师'
       user-name: 17862703129
       pass-word: Waqzero0405
-      finish: false
+      finish: true
     - name: '英语老师'
       user-name: 13110019750
       pass-word: '@Aa2183732'
-      finish: false
+      finish: true
+    - name: '物理老师'
+      user-name: 90574846
+      pass-word: 'Asdfgh123'
+      finish: true
+    - name: '班主任'
+      user-name: 18610814586
+      pass-word: 'Zhy790426'
+      finish: true
+    - name: '刘殊君'
+      user-name: 90815811
+      pass-word: 'liushujun@123LIU'
+      finish: true
+    - name: '雷老师'
+      user-name: 90558400
+      pass-word: 'Lsz19910617'
+      finish: true
+    - name: '初中部的数学老师'
+      user-name: 13164284728
+      pass-word: 'Ab123456'
+      finish: true
 
 logging:
   pattern:
